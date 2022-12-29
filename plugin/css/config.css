@@ -5,3 +5,14 @@
 .kintoneplugin-input-text {
   width: 20em;
 }
+
+div.kintoneplugin-input-outer > input.kintoneplugin-input-text#padding-string {
+  width: 120 ; 
+  margin-right: 12px;
+}
+
+.kintoneplugin-desc-header {
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #888;
+}
