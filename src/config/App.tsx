@@ -1,14 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { DropDown, DropDownList, FormCheckBox, FormDescription, FormLabel, FormRow } from '../Components'
-import { getSingleStringFields, ResultField } from '../modules'
+import {
+  DropDown,
+  DropDownList,
+  FormCheckBox,
+  FormDescription,
+  FormEndRow,
+  FormLabel,
+  FormRow,
+  ProxySetConfigButton,
+  TextBox,
+} from '../Components'
+import { getConfig, getSingleStringFields, ResultField } from '../modules'
 import { env } from '.'
 
+type ConfigObject = {
+  checkfield: string
+  resultfield: string
+  kanaAll: string
+  isAddConfig?: boolean
+}
+
+const pluginConfig: ConfigObject = getConfig(kintone.$PLUGIN_ID)
+console.log(pluginConfig)
+
 const App = () => {
-  console.log(env)
-  const { DEFAULT_FIELDS } = env
+  const { DEFAULT_FIELDS, URL, METHOD } = env
+  const proxyConfig = kintone.plugin.app.getProxyConfig(URL, METHOD)
+  const [apiKey, setApiKey] = useState(proxyConfig.headers.apikey)
+  const [config, setConfig] = useState<ConfigObject>(pluginConfig)
   const [fields, setFields] = useState<DropDownList[]>(DEFAULT_FIELDS)
-  const [selectedField, setSelectedField] = useState<string[]>()
-  const [requiredField, setRequiredField] = useState<string>('')
+  const [requiredField, setRequiredField] = useState<string>(config.checkfield || '')
+  const [resultField, setResultField] = useState<string>(config.resultfield || '')
+  const [kanaAll, setKanaAll] = useState<string>(config.kanaAll || '')
 
   useEffect(() => {
     getSingleStringFields().then(resp => {
@@ -16,13 +39,45 @@ const App = () => {
     })
   }, [])
 
+  useEffect(() => {
+    config.checkfield = requiredField
+    config.resultfield = resultField
+    config.kanaAll = kanaAll
+    delete config.isAddConfig
+    setConfig(config)
+  }, [requiredField, resultField, kanaAll])
+
   return (
     <>
       <FormLabel text='郵便番号プラグイン' />
       <FormDescription text='郵便番号を検索して必要な値をフィールドに転記するプラグイン' />
       <FormRow />
+      <FormDescription text='PostCodeJP API key' />
+      <TextBox value={apiKey} stateFunction={setApiKey} />
+      <ProxySetConfigButton
+        url={URL}
+        method={METHOD}
+        headers={{
+          'Content-Type': 'application/json',
+          'apikey': apiKey,
+        }}
+      />
+      <FormRow />
       <DropDown value={requiredField} label={'郵便番号フィールド'} list={fields} stateFunction={setRequiredField} />
-      <FormCheckBox label={''} name={''} checked={false} childrens={[]} id={''} />
+      <DropDown value={resultField} label={'結果出力フィールド'} list={fields} stateFunction={setResultField} />
+      <FormRow />
+      <FormCheckBox
+        label={'拡張機能を利用する。'}
+        name={''}
+        checked={!!config.kanaAll}
+        childrens={[
+          <DropDown value={kanaAll} label={'よみがな住所フィールド'} list={fields} stateFunction={setKanaAll} />,
+        ]}
+        id={'use-expanded'}
+      />
+      <FormRow />
+      <br />
+      <FormEndRow config={config} />
     </>
   )
 }

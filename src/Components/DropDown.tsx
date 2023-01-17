@@ -17,6 +17,7 @@ export default ({
       <div className='kintoneplugin-title'>{label}</div>
       <div className='kintoneplugin-select'>
         <select
+          style={{ marginRight: 10 }}
           value={value}
           onChange={e => {
             stateFunction(e.target.value)
