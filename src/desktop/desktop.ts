@@ -49,10 +49,10 @@ const HANKAKU_TOWN = address
 
 //test
 kintone.events.on(show(), async event => {
-  console.log('test')
-  const res = await kintone.proxy(URL + '1000001', METHOD, {}, {})
+  console.log(URL)
+  const res = await kintone.proxy(URL + '2230064', METHOD, {}, {})
   const json = JSON.parse(res[0])[0]
-  console.log(json)
+  console.log(res)
 })
 
 kintone.events.on(edit.show(), async event => {
@@ -61,12 +61,15 @@ kintone.events.on(edit.show(), async event => {
   if (!value) return
 
   const addresses = await getAddresses(value)
+  console.log(addresses)
+  if (!addresses) return event
 
   // if (ALL_ADDRESS) record[ALL_ADDRESS].value = resp.allAddress
   // if (PREF) record[PREF].value = resp.pref
   // if (CITY) record[CITY].value = resp.city
   // if (TOWN) record[TOWN].value = resp.town
-  if (HIRAGANA_ALL_ADDRESS) record[HIRAGANA_ALL_ADDRESS].value = addresses.hiragana.allAddress
+  if (HIRAGANA_ALL_ADDRESS && !record[HIRAGANA_ALL_ADDRESS].value)
+    record[HIRAGANA_ALL_ADDRESS].value = addresses.hiragana?.allAddress
   // if (HIRAGANA_PREF) record[HIRAGANA_PREF].value = resp.hiragana.pref
   // if (HIRAGANA_CITY) record[HIRAGANA_CITY].value = resp.hiragana.city
   // if (HIRAGANA_TOWN) record[HIRAGANA_TOWN].value = resp.hiragana.town
@@ -95,6 +98,7 @@ kintone.events.on(credit.change(CHECK_FIELD), event => {
   field.disabled = true
 
   getAddresses(postCode).then(resp => {
+    if (!resp) return
     const { record } = kintone.app.record.get()
     const field = record[CHECK_FIELD]
     field.value = postCode
@@ -119,4 +123,6 @@ kintone.events.on(credit.change(CHECK_FIELD), event => {
 
     kintone.app.record.set({ record: record })
   })
+
+  return event
 })

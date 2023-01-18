@@ -10,7 +10,7 @@ import {
   ProxySetConfigButton,
   TextBox,
 } from '../Components'
-import { getConfig, getSingleStringFields, ResultField } from '../modules'
+import { getConfig, getSingleStringFields, getAddresses } from '../modules'
 import { env } from '.'
 
 type ConfigObject = {
@@ -26,7 +26,9 @@ console.log(pluginConfig)
 const App = () => {
   const { DEFAULT_FIELDS, URL, METHOD } = env
   const proxyConfig = kintone.plugin.app.getProxyConfig(URL, METHOD)
-  const [apiKey, setApiKey] = useState(proxyConfig.headers.apikey)
+
+  const headers = proxyConfig ? proxyConfig.headers : { apikey: '' }
+  const [apiKey, setApiKey] = useState(headers.apikey)
   const [config, setConfig] = useState<ConfigObject>(pluginConfig)
   const [fields, setFields] = useState<DropDownList[]>(DEFAULT_FIELDS)
   const [requiredField, setRequiredField] = useState<string>(config.checkfield || '')

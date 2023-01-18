@@ -24,7 +24,7 @@ const FormEndRow = ({ config }: { config: any }) => {
           e.preventDefault()
           const url = window.location.href
           const appId = '' + kintone.app.getId()
-          const reg = new RegExp(appId + '*')
+          const reg = new RegExp(appId + '//*')
           const urlMatch = url.match(reg)
           const urlSlice = url.slice(urlMatch?.index)
           const backPage = url.replace(urlSlice, 'flow?app=' + appId + '#section=settings')
