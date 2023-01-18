@@ -1,6 +1,3 @@
-import { BASE_URL, POST_CODES } from './.env'
-const REQUEST_URL = (postcode: string): string => BASE_URL + POST_CODES + postcode //+ '?fields=allAddress' //,location
-
 type GetPostCodeAllData = {
   allAddress: string
   city: string
@@ -35,10 +32,12 @@ type GetPostCodeAllData = {
   prefCode: string
   town: string
 }
+
+const URL = 'https://apis.postcode-jp.com/api/v5/postcodes/'
 export default async (postcode: string | number): Promise<GetPostCodeAllData | null> => {
   if (typeof postcode === 'number') postcode = '' + postcode
   postcode = postcode.replace(/-/g, '')
-  const result = await kintone.proxy(REQUEST_URL(postcode), 'GET', {}, {})
+  const result = await kintone.proxy(URL, 'GET', { postcode: postcode }, {})
   console.log(result)
   const json: GetPostCodeAllData[] = JSON.parse(result[0])
   return json[0] ? json[0] : null

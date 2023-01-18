@@ -26,9 +26,10 @@ console.log(pluginConfig)
 const App = () => {
   const { DEFAULT_FIELDS, URL, METHOD } = env
   const proxyConfig = kintone.plugin.app.getProxyConfig(URL, METHOD)
+  console.log(proxyConfig)
 
-  const headers = proxyConfig ? proxyConfig.headers : { apikey: '' }
-  const [apiKey, setApiKey] = useState(headers.apikey)
+  const headers = proxyConfig ? proxyConfig.headers : { apiKey: '' }
+  const [apiKey, setApiKey] = useState(headers.apiKey)
   const [config, setConfig] = useState<ConfigObject>(pluginConfig)
   const [fields, setFields] = useState<DropDownList[]>(DEFAULT_FIELDS)
   const [requiredField, setRequiredField] = useState<string>(config.checkfield || '')
@@ -36,6 +37,7 @@ const App = () => {
   const [kanaAll, setKanaAll] = useState<string>(config.kanaAll || '')
 
   useEffect(() => {
+    getAddresses(1000001).then(resp => console.log(resp))
     getSingleStringFields().then(resp => {
       setFields(DEFAULT_FIELDS.concat(resp))
     })
@@ -60,8 +62,8 @@ const App = () => {
         url={URL}
         method={METHOD}
         headers={{
-          'Content-Type': 'application/json',
-          'apikey': apiKey,
+          // 'Content-Type': 'application/json',
+          'apiKey': apiKey,
         }}
       />
       <FormRow />
