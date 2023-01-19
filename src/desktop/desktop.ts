@@ -108,7 +108,8 @@ kintone.events.on(credit.change(CHECK_FIELD), event => {
     // if (PREF) record[PREF].value = resp.pref
     // if (CITY) record[CITY].value = resp.city
     // if (TOWN) record[TOWN].value = resp.town
-    if (HIRAGANA_ALL_ADDRESS) record[HIRAGANA_ALL_ADDRESS].value = resp.hiragana.allAddress
+    if (HIRAGANA_ALL_ADDRESS && !record[HIRAGANA_ALL_ADDRESS].value)
+      record[HIRAGANA_ALL_ADDRESS].value = resp.hiragana.allAddress
     // if (HIRAGANA_PREF) record[HIRAGANA_PREF].value = resp.hiragana.pref
     // if (HIRAGANA_CITY) record[HIRAGANA_CITY].value = resp.hiragana.city
     // if (HIRAGANA_TOWN) record[HIRAGANA_TOWN].value = resp.hiragana.town

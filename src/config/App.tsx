@@ -21,7 +21,6 @@ type ConfigObject = {
 }
 
 const pluginConfig: ConfigObject = getConfig(kintone.$PLUGIN_ID)
-console.log(pluginConfig)
 
 const App = () => {
   const { DEFAULT_FIELDS, URL, METHOD } = env
@@ -37,7 +36,6 @@ const App = () => {
   const [kanaAll, setKanaAll] = useState<string>(config.kanaAll || '')
 
   useEffect(() => {
-    getAddresses(1000001).then(resp => console.log(resp))
     getSingleStringFields().then(resp => {
       setFields(DEFAULT_FIELDS.concat(resp))
     })
