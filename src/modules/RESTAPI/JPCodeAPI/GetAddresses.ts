@@ -1,4 +1,5 @@
 import { URL } from './.env'
+
 type GetPostCodeAllData = {
   allAddress: string
   city: string
@@ -34,13 +35,17 @@ type GetPostCodeAllData = {
   town: string
 }
 
-export default async (postcode: string | number): Promise<GetPostCodeAllData | null> => {
+export default async (postcode: string | number) => {
+  //:Promise<GetPostCodeAllData | null>
   if (typeof postcode === 'number') postcode = '' + postcode
   postcode = postcode.replace(/-/g, '')
-  const result = await kintone.proxy(URL + postcode, 'GET', {}, {})
+  console.log(postcode)
+
+  const result = await kintone.proxy(URL + postcode, 'GET', { apiKey: 'f0fY3HAEwst70J5sEAOmjPyB3bEM6plPnFGK3b9' }, {})
+
   console.log(result)
 
-  const json: GetPostCodeAllData[] = JSON.parse(result[0])
-  console.log(json)
-  return json[0] ? json[0] : null
+  // const json: GetPostCodeAllData[] = JSON.parse(result[0])
+  // console.log(json)
+  // return json[0] ? json[0] : null
 }

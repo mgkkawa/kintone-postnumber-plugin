@@ -27,6 +27,8 @@ const App = () => {
   const proxyConfig = kintone.plugin.app.getProxyConfig(URL, METHOD)
   console.log(proxyConfig)
 
+  getAddresses('1000001')
+
   const headers = proxyConfig ? proxyConfig.headers : { apiKey: '' }
   const [apiKey, setApiKey] = useState(headers.apiKey)
   const [config, setConfig] = useState<ConfigObject>(pluginConfig)
@@ -60,7 +62,7 @@ const App = () => {
         url={URL}
         method={METHOD}
         headers={{
-          // 'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
           'apiKey': apiKey,
         }}
       />

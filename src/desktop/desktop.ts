@@ -62,14 +62,14 @@ kintone.events.on(edit.show(), async event => {
 
   const addresses = await getAddresses(value)
   console.log(addresses)
-  if (!addresses) return event
+  // if (!addresses) return event
 
   // if (ALL_ADDRESS) record[ALL_ADDRESS].value = resp.allAddress
   // if (PREF) record[PREF].value = resp.pref
   // if (CITY) record[CITY].value = resp.city
   // if (TOWN) record[TOWN].value = resp.town
-  if (HIRAGANA_ALL_ADDRESS && !record[HIRAGANA_ALL_ADDRESS].value)
-    record[HIRAGANA_ALL_ADDRESS].value = addresses.hiragana?.allAddress
+  // if (HIRAGANA_ALL_ADDRESS && !record[HIRAGANA_ALL_ADDRESS].value)
+  //   record[HIRAGANA_ALL_ADDRESS].value = addresses.hiragana?.allAddress
   // if (HIRAGANA_PREF) record[HIRAGANA_PREF].value = resp.hiragana.pref
   // if (HIRAGANA_CITY) record[HIRAGANA_CITY].value = resp.hiragana.city
   // if (HIRAGANA_TOWN) record[HIRAGANA_TOWN].value = resp.hiragana.town
@@ -97,33 +97,33 @@ kintone.events.on(credit.change(CHECK_FIELD), event => {
   const postCode = value.replace(/-/g, '')
   field.disabled = true
 
-  getAddresses(postCode).then(resp => {
-    if (!resp) return
-    const { record } = kintone.app.record.get()
-    const field = record[CHECK_FIELD]
-    field.value = postCode
-    field.disabled = false
+  // getAddresses(postCode).then(resp => {
+  //   if (!resp) return
+  //   const { record } = kintone.app.record.get()
+  //   const field = record[CHECK_FIELD]
+  //   field.value = postCode
+  //   field.disabled = false
 
-    if (ALL_ADDRESS) record[ALL_ADDRESS].value = resp.allAddress
-    // if (PREF) record[PREF].value = resp.pref
-    // if (CITY) record[CITY].value = resp.city
-    // if (TOWN) record[TOWN].value = resp.town
-    if (HIRAGANA_ALL_ADDRESS && !record[HIRAGANA_ALL_ADDRESS].value)
-      record[HIRAGANA_ALL_ADDRESS].value = resp.hiragana.allAddress
-    // if (HIRAGANA_PREF) record[HIRAGANA_PREF].value = resp.hiragana.pref
-    // if (HIRAGANA_CITY) record[HIRAGANA_CITY].value = resp.hiragana.city
-    // if (HIRAGANA_TOWN) record[HIRAGANA_TOWN].value = resp.hiragana.town
-    // if (KATAKANA_ALL_ADDRESS) record[KATAKANA_ALL_ADDRESS].value = resp.fullWidthKana.allAddress
-    // if (KATAKANA_PREF) record[KATAKANA_PREF].value = resp.fullWidthKana.pref
-    // if (KATAKANA_CITY) record[KATAKANA_CITY].value = resp.fullWidthKana.city
-    // if (KATAKANA_TOWN) record[KATAKANA_TOWN].value = resp.fullWidthKana.town
-    // if (HANKAKU_ALL_ADDRESS) record[HANKAKU_ALL_ADDRESS].value = resp.halfWidthKana.allAddress
-    // if (HANKAKU_PREF) record[HANKAKU_PREF].value = resp.halfWidthKana.pref
-    // if (HANKAKU_CITY) record[HANKAKU_CITY].value = resp.halfWidthKana.city
-    // if (HANKAKU_TOWN) record[HANKAKU_TOWN].value = resp.halfWidthKana.town
+  //   if (ALL_ADDRESS) record[ALL_ADDRESS].value = resp.allAddress
+  //   // if (PREF) record[PREF].value = resp.pref
+  //   // if (CITY) record[CITY].value = resp.city
+  //   // if (TOWN) record[TOWN].value = resp.town
+  //   if (HIRAGANA_ALL_ADDRESS && !record[HIRAGANA_ALL_ADDRESS].value)
+  //     record[HIRAGANA_ALL_ADDRESS].value = resp.hiragana.allAddress
+  //   // if (HIRAGANA_PREF) record[HIRAGANA_PREF].value = resp.hiragana.pref
+  //   // if (HIRAGANA_CITY) record[HIRAGANA_CITY].value = resp.hiragana.city
+  //   // if (HIRAGANA_TOWN) record[HIRAGANA_TOWN].value = resp.hiragana.town
+  //   // if (KATAKANA_ALL_ADDRESS) record[KATAKANA_ALL_ADDRESS].value = resp.fullWidthKana.allAddress
+  //   // if (KATAKANA_PREF) record[KATAKANA_PREF].value = resp.fullWidthKana.pref
+  //   // if (KATAKANA_CITY) record[KATAKANA_CITY].value = resp.fullWidthKana.city
+  //   // if (KATAKANA_TOWN) record[KATAKANA_TOWN].value = resp.fullWidthKana.town
+  //   // if (HANKAKU_ALL_ADDRESS) record[HANKAKU_ALL_ADDRESS].value = resp.halfWidthKana.allAddress
+  //   // if (HANKAKU_PREF) record[HANKAKU_PREF].value = resp.halfWidthKana.pref
+  //   // if (HANKAKU_CITY) record[HANKAKU_CITY].value = resp.halfWidthKana.city
+  //   // if (HANKAKU_TOWN) record[HANKAKU_TOWN].value = resp.halfWidthKana.town
 
-    kintone.app.record.set({ record: record })
-  })
+  //   kintone.app.record.set({ record: record })
+  // })
 
   return event
 })
